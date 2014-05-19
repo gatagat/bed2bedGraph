@@ -185,7 +185,7 @@ void parse_line(char *line, char *chr, int &start, int &end)
 	}
 	if (chr_len > MAX_CHR_LEN) {
 		fprintf(stderr, "Error: Maximum allowed chromosome length exceed "
-			"(limit: %d, actual: %d) while parsing line:\n%s\n",
+			"(limit: %d, actual: %zd) while parsing line:\n%s\n",
 			MAX_CHR_LEN, chr_len, line);
 		exit(-1);
 	}

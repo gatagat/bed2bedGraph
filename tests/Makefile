@@ -1,13 +1,14 @@
-TESTS=starts_where_ends\
- overlap\
- one_bp_read\
- one_bp_overlap\
- fail_empty_read\
- fail_too_long_chromosome\
- fail_unsorted\
- fail_incomplete_read\
- fail_negative_length\
- fail_bad_start_pos_read\
+TESTS=starts_where_ends \
+ overlap \
+ one_bp_read \
+ one_bp_overlap \
+ multiple_starts_or_ends \
+ fail_empty_read \
+ fail_too_long_chromosome \
+ fail_unsorted \
+ fail_incomplete_read \
+ fail_negative_length \
+ fail_bad_start_pos_read \
  fail_negative_start
 
 .PHONY: all
@@ -26,6 +27,9 @@ one_bp_read:
 	./expect-success.sh $@ "$(B2BG)" $@.bed $@.bg
 
 one_bp_overlap:
+	./expect-success.sh $@ "$(B2BG)" $@.bed $@.bg
+
+multiple_starts_or_ends:
 	./expect-success.sh $@ "$(B2BG)" $@.bed $@.bg
 
 fail_empty_read:
