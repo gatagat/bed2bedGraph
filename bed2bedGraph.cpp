@@ -37,6 +37,18 @@ int main(int argc, char** argv)
 	int start;
 	int end;
 
+	if (argc != 1) {
+		fprintf(stderr, "bed2bedGraph - replacement for genomeCovBed -bg\n"
+				"Usage: %s < input.bed > output.bg\n", argv[0]);
+		fprintf(stderr, "\n"
+				"The input.bed has to be sorted.\n"
+				"\n"
+				"The output.bg is the same as what \"genomeCovBed -i input.bed -g chrom_sizes -bg\" would give.\n"
+				"(No genomeCovBed -d option is available.)\n"
+				"\n");
+		exit(-1);
+	}
+
 	int level = 0;
 	int pos = -1;
 	// XXX: read in batches - further speed up?
