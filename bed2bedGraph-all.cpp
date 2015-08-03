@@ -17,6 +17,8 @@
 #include <functional>
 #include <limits>
 #include <string>
+#include <sstream>
+#include <fstream>
 
 #define INT_LEN (sizeof(int)*8)
 #define ITOA_BUF_LEN INT_LEN
@@ -35,6 +37,22 @@ const int start = std::numeric_limits<int>::max());
 
 typedef std::map<std::string, int> ChromSizes;
 
+ChromSizes parse_chromsizes(char *filename)
+{
+	std::string line;
+	std::string chrom;
+	int length;
+	std::ifstream ifs(filename);
+	ChromSizes ret;
+	while (std::getline(ifs, line)) {
+		std::istringstream iss(line);
+		std::getline(iss, chrom, '\t');
+		iss >> length;
+		ret[chrom] = length;
+	}
+	return ret;
+}
+
 int main(int argc, char** argv)
 {
 	char chr[MAX_CHR_LEN+1];		 /// Current chromosome.
@@ -43,7 +61,7 @@ int main(int argc, char** argv)
 	int start;
 	int end;
 
-	if (argc != 1) {
+	if (argc != 2 || strncmp(argv[1], "-h", 2) == 0) {
 //		...merge into bed2bedGraph 
 //			- -bga output
 //			- -d dense ouput
@@ -62,9 +80,8 @@ int main(int argc, char** argv)
 		exit(-1);
 	}
 
-	ChromSizes chrom_sizes;
-        //	= parse_chromsizes(argv[1]);
-	chrom_sizes[std::string("chrUextra")] = 29004656;
+	ChromSizes chrom_sizes = parse_chromsizes(argv[1]);
+	/*chrom_sizes[std::string("chrUextra")] = 29004656;
 	chrom_sizes[std::string("chr3R")] = 27905053;
 	chrom_sizes[std::string("chr3L")] = 24543557;
 	chrom_sizes[std::string("chr2L")] = 23011544;
@@ -78,7 +95,7 @@ int main(int argc, char** argv)
 	chrom_sizes[std::string("chr2LHet")] = 368872;
 	chrom_sizes[std::string("chrYHet")] = 347038;
 	chrom_sizes[std::string("chrXHet")] = 204112;
-	chrom_sizes[std::string("chrM")] = 19517;
+	chrom_sizes[std::string("chrM")] = 19517;*/
 
 
 	int level = 0;
