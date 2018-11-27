@@ -5,6 +5,7 @@
 //
 // Both input and output are zero-based with half-open intervals:
 //   chrXYZ start end		- represents (start, end] 
+// Unless compiled with -DONE_BASED, in which case the intervals are one-based.
 //
 // Tomas Kazmar, 2014
 
@@ -26,7 +27,12 @@
 #define MAX_CHR_LEN 100
 #define MAX_LINE_LEN (MAX_CHR_LEN + 1 + INT_LEN + 1 + INT_LEN + 2000)
 
-int put_level_start_bias = 1; // 1 -> one-based coords, 0 -> zero-based
+// 1 -> one-based coords, 0 -> zero-based
+#ifdef ONE_BASED
+int put_level_start_bias = 1;
+#else
+int put_level_start_bias = 0;
+#endif
 
 char puts_cache[MAX_PUTS_CACHE_LEN+2];
 char *puts_cache_pos = puts_cache;
@@ -69,8 +75,14 @@ int main(int argc, char** argv)
 //
 //			tests - reads at start/end of chromosome, read spanning the whole chromosome
 //
-		fprintf(stderr, "bed2bedGraph-all - replacement for genomeCovBed -bga\n"
-				"Usage: %s chrom_sizes < input.bed > output.bg\n", argv[0]);
+		fprintf(stderr, "bed2bedGraph-all-%s - replacement for genomeCovBed -bga\n"
+				"Usage: %s chrom_sizes < input.bed > output.bg\n",
+#ifdef ONE_BASED
+				"one-based",
+#else
+				"zero-based",
+#endif
+				argv[0]);
 		fprintf(stderr, "\n"
 				"The input.bed has to be sorted (zero-based).\n"
 				"\n"
